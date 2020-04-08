@@ -20,7 +20,7 @@ import { Auth } from 'aws-amplify';
 import {WModal} from 'react-native-smart-tip';
 
 const modalOpts_1 = {
-  data: '正在注册',
+  data: '正在修改密码',
   textColor: '#fff',
   backgroundColor: '#444444',
   position: WModal.position.CENTER,
@@ -34,14 +34,14 @@ const modalOpts_2 = {
   icon: <ActivityIndicator color='#fff' size={'large'}/>
 };
 
-class RegisterPage extends Component{
+class ResetPassword extends Component{
 
   wModalShow = (modalOpts) => {
     WModal.show(modalOpts)
   };
   wModalHide=()=>{
     WModal.hide()
-  }
+  };
   /** 自定义顶部操作栏左右键 */
   getRightButton(){return null };
   getLeftButton(){
@@ -59,53 +59,50 @@ class RegisterPage extends Component{
       </View>
     )
   };
-  signUp = async () => {
+  resetPassword = async () => {
     this.wModalShow(modalOpts_1);
     const username = this.props.regUserName;
-    const password = this.props.regUserPassWord;
-    const email = this.props.regUserEmail;
     try {
       if(!username){
         this.props.languageMode==='chinese'?Alert.alert('提示','用户名不能为空'):Alert.alert('Tips','User name cannot be empty')
-      }else if(!email){
-        this.props.languageMode==='chinese'?Alert.alert('提示','邮箱不能为空'):Alert.alert('Tips','Email cannot be empty')
-      }else if(!password){
-        this.props.languageMode==='chinese'?Alert.alert('提示','密码不能为空'):Alert.alert('Tips','Password cannot be empty')
       }else{
-        const success = await Auth.signUp({ username, password, attributes: { email }})
-        this.props.setConfirmationForm();
+        const success = await Auth.forgotPassword(username)
+        //this.props.setConfirmationForm();
         this.props.blurAllInput();
         this.wModalHide();
       }
     } catch (err) {
-      console.log('error signing up: ', err);
+      console.log('error reset password: ', err);
       this.wModalHide();
-      const message = err.message;
-      Alert.alert('Tips', message);
+      Alert.alert('Tips', err.message);
     }
   };
-  confirmSignUp = async () => {
+  confirmResetPassword = async () => {
     this.wModalShow(modalOpts_2);
     const username = this.props.regUserName;
-    const authenticationCode = this.props.regVerCode;
+    const code = this.props.regVerCode;
+    const new_password = this.props.regUserPassWord;
     try {
-      if(!authenticationCode){
+      if(!username){
+        this.props.languageMode==='chinese'?Alert.alert('提示','用户名不能为空'):Alert.alert('Tips','User name cannot be empty')
+      }else if(!code){
         this.props.languageMode==='chinese'?Alert.alert('提示','验证码不能为空'):Alert.alert('Tips','Verification code cannot be empty')
-      }else{
-        await Auth.confirmSignUp(username, authenticationCode)
-        console.log('successully signed up!');
+      }else if(!new_password){
+        this.props.languageMode==='chinese'?Alert.alert('提示','密码不能为空'):Alert.alert('Tips','Password cannot be empty')
+      }{
+        await Auth.forgotPasswordSubmit(username, code,new_password)
+        console.log('successully Reset Password!');
         this.props.blurAllInput();
         //this.props.resetShowConfirmationForm();
         this.wModalHide();
-        this.props.languageMode==='chinese'?Alert.alert('提示','验证成功'):Alert.alert('Tips','successully signed up!');
         this.timer=setTimeout(()=>{
           this.props.navigation.navigate('LoginPage');
         },1000);
       }
     } catch (err) {
+      console.log('error confirming Reset Password: ', err);
       this.wModalHide();
-      const message = err.message;
-      Alert.alert('Tips', message);
+      Alert.alert('Tips', err.message);
     }
   };
   render(){
@@ -114,7 +111,7 @@ class RegisterPage extends Component{
       barStyle:'dark-content',
     };
     let navigationBar=<NavigationBar
-      title={this.props.languageMode==='chinese'?'注册':'Sign Up'}
+      title={this.props.languageMode==='chinese'?'重置密码':'Reset Password'}
       statusBar={statusBar}
       style={{backgroundColor:'transparent'}}
       rightButton={this.getRightButton()}
@@ -135,26 +132,10 @@ class RegisterPage extends Component{
                     onBlur={()=>{this.props.userInputBlur()}}
                   />
                 </View>
-                <View style={this.props.userEmailFocus?styles.inputWrapperOn:styles.inputWrapper}>
-                  <TextFix style={styles.inputTitle}>{this.props.languageMode==='chinese'?'邮箱地址':'Email'}</TextFix>
-                  <TextInput style={styles.input}
-                    onFocus={()=>{this.props.emailInputFocus()}}
-                    onChangeText={(UpContactText)=>{this.props.cRegEmail(UpContactText)}}
-                    onBlur={()=>{this.props.emailInputBlur()}}
-                  />
-                </View>
-                <View style={this.props.userPassWordFocus?styles.inputWrapperOn:styles.inputWrapper}>
-                  <TextFix style={styles.inputTitle}>{this.props.languageMode==='chinese'?'密码':'Password'}</TextFix>
-                  <TextInput style={styles.input} secureTextEntry={true}
-                    onFocus={()=>{this.props.passWordInputFocus()}}
-                    onChangeText={(UpContactText)=>{this.props.cRegPassWord(UpContactText)}}
-                    onBlur={()=>{this.props.passWordInputBlur()}}
-                  />
-                </View>
               </View>
               <View style={styles.bigBtnWrapper}>
-                <TouchableOpacity style={styles.bigBtnBg} onPress={this.signUp}>
-                  <TextFix style={styles.btnTitle}>{this.props.languageMode==='chinese'?'注册':'Sign Up'}</TextFix>
+                <TouchableOpacity style={styles.bigBtnBg} onPress={this.resetPassword}>
+                  <TextFix style={styles.btnTitle}>{this.props.languageMode==='chinese'?'重置密码':'Reset Password'}</TextFix>
                 </TouchableOpacity>
               </View>
             </View>
@@ -172,10 +153,18 @@ class RegisterPage extends Component{
                     onBlur={()=>{this.props.verCodeInputBlur()}}
                   />
                 </View>
+                <View style={this.props.userPassWordFocus?styles.inputWrapperOn:styles.inputWrapper}>
+                  <TextFix style={styles.inputTitle}>{this.props.languageMode==='chinese'?'新密码':'New Password'}</TextFix>
+                  <TextInput style={styles.input} secureTextEntry={true}
+                    onFocus={()=>{this.props.passWordInputFocus()}}
+                    onChangeText={(UpContactText)=>{this.props.cRegPassWord(UpContactText)}}
+                    onBlur={()=>{this.props.passWordInputBlur()}}
+                  />
+                </View>
               </View>
               <View style={styles.bigBtnWrapper}>
-                <TouchableOpacity style={styles.bigBtnBg} onPress={this.confirmSignUp}>
-                  <TextFix style={styles.btnTitle}>{this.props.languageMode==='chinese'?'确认注册':'Confirm Sign Up'}</TextFix>
+                <TouchableOpacity style={styles.bigBtnBg} onPress={this.confirmResetPassword}>
+                  <TextFix style={styles.btnTitle}>{this.props.languageMode==='chinese'?'确认重置密码':'Confirm Reset Password'}</TextFix>
                 </TouchableOpacity>
               </View>
             </View>
@@ -216,6 +205,9 @@ const mapStateToProps=(state)=>{
 };
 const mapDispatchToProps=(dispatch)=>{
   return{
+    cLogPassWord(UpContactText){
+      dispatch(actionCreators.cLogPassWord(UpContactText));
+    },
     userInputFocus(){
       dispatch(actionCreators.userInputFocus());
     },
@@ -264,4 +256,4 @@ const mapDispatchToProps=(dispatch)=>{
   };
 };
 
-export default connect(mapStateToProps,mapDispatchToProps)(RegisterPage);
+export default connect(mapStateToProps,mapDispatchToProps)(ResetPassword);

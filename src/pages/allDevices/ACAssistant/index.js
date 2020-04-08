@@ -78,7 +78,7 @@ class ACACtrlPage extends Component{
 };
 
 const styles=StyleSheet.create({
-  windowBg:{flex:1,paddingBottom:Platform.OS==='android'?0:DeviceInfo.isIPhoneX_deprecated?px2dp(30):10},
+  windowBg:{flex:1,paddingBottom:Platform.OS==='android'?0:DeviceInfo.isIPhoneX_deprecated?px2dp(40):10},
   contentWrapper:{flex:1,justifyContent:'space-between'},
   infoWrapper:{alignItems:'center'},
 });

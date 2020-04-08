@@ -11,6 +11,7 @@ import WelcomePage from '../pages/WelcomePage';
 
 import LoginPage from '../pages/system/LoginPage';
 import RegisterPage from '../pages/system/RegisterPage';
+import ResetPassword from '../pages/system/ResetPassword';
 
 import ConnectDeviceWifi from '../pages/system/ConnectDeviceWifi';
 import ConnectDeviceInfo from '../pages/system/ConnectDeviceInfo';
@@ -25,6 +26,12 @@ const LoginNav = createStackNavigator(
     },
     RegisterPage:{
       screen:RegisterPage,
+      navigationOptions:{
+        header:null
+      }
+    },
+    ResetPassword:{
+      screen:ResetPassword,
       navigationOptions:{
         header:null
       }

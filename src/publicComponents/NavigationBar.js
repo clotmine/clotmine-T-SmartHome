@@ -103,9 +103,9 @@ const styles=StyleSheet.create({
         bottom:0,
     },
     title:{
-        fontSize:px2dp(34),
+        fontSize:px2dp(36),
         color:'#252631',
-        fontWeight:'400'
+        fontWeight:'bold'
     },
     statusBar:{
         height:(Platform.OS==='android'?0:DeviceInfo.isIPhoneX_deprecated?STATUS_BAR_HEIGHT_IPX:STATUS_BAR_HEIGHT),

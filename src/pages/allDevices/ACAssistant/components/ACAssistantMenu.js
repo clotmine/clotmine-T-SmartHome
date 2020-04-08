@@ -70,8 +70,8 @@ class ACAssistantMenu extends Component{
 };
 
 const styles=StyleSheet.create({
-  wrapper:{paddingHorizontal:px2dp(30),},
-  rowWrapper:{flexDirection:'row',justifyContent:'space-between',marginBottom:px2dp(24)},
+  wrapper:{paddingHorizontal:px2dp(30),marginTop:px2dp(50)},
+  rowWrapper:{flexDirection:'row',justifyContent:'space-between',marginBottom:px2dp(30)},
   itemWrapper:{alignItems:'center',width:'20%'},
   itemIcon:{width:px2dp(90),height:px2dp(90),marginBottom:px2dp(12)},
   itemTitle:{color:'#fff',fontSize:px2dp(26),opacity:.8,textAlign:'center'},

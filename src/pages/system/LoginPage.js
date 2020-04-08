@@ -5,7 +5,9 @@ import {
   Image,
   View,
   TextInput,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert,
+  ActivityIndicator
 } from 'react-native';
 import NavigationBar from '../../publicComponents/NavigationBar'; /**自定义topBar */
 import px2dp from '../../rule/px2dp'; /**元素尺寸适配 */
@@ -14,25 +16,47 @@ import {actionCreators}  from './store';
 import {connect} from 'react-redux';
 import { Auth } from 'aws-amplify'
 
+import {WModal} from 'react-native-smart-tip';
+
+const modalOpts = {
+  data: '正在登陆',
+  textColor: '#fff',
+  backgroundColor: '#444444',
+  position: WModal.position.CENTER,
+  icon: <ActivityIndicator color='#fff' size={'large'}/>
+};
+
 class LoginPage extends Component{
+
+  wModalShow = (modalOpts) => {
+    WModal.show(modalOpts)
+  };
+  wModalHide=()=>{
+    WModal.hide()
+  };
   /** 自定义顶部操作栏左右键 */
   getRightButton(){return null };
   getLeftButton(){return null};
   signIn = async () => {
+    this.wModalShow(modalOpts);
     const username = this.props.logUserName;
     const password = this.props.logUserPassWord;
     try {
       if(!username){
-        alert('用户名不能为空')
+        this.props.languageMode==='chinese'?Alert.alert('提示','用户名不能为空'):Alert.alert('Tips','User name cannot be empty')
       }else if(!password){
-        alert('密码不能为空')
+        this.props.languageMode==='chinese'?Alert.alert('提示','密码不能为空'):Alert.alert('Tips','Password cannot be empty')
       }else{
-        const user = await Auth.signIn(username, password)
-        console.log('user successfully signed in!', user)
-        this.props.navigation.navigate('DeviceNav')
+        const user = await Auth.signIn(username, password);
+        console.log('user successfully signed in!', user);
+        this.wModalHide();
+        this.props.navigation.navigate('DeviceNav');
+        this.props.blurAllInput();
       }
     } catch (err) {
-      console.log('error:', err)
+      console.log('error:', err);
+      this.wModalHide();
+      Alert.alert('Tips', err.message);
     }
   };
   render(){
@@ -74,8 +98,12 @@ class LoginPage extends Component{
               />
             </View>
             <View style={styles.pswAndResWrapper}>
-              <TouchableOpacity><TextFix style={styles.pswText}>{this.props.languageMode==='chinese'?'忘记密码？':'Forget the password?'}</TextFix></TouchableOpacity>
-              <TouchableOpacity onPress={()=>this.props.navigation.navigate('RegisterPage')}><TextFix style={styles.resText}>{this.props.languageMode==='chinese'?'注册账户':'Sign up'}</TextFix></TouchableOpacity>
+              <TouchableOpacity onPress={()=>{this.props.navigation.navigate('ResetPassword');this.props.resetShowConfirmationForm()}}>
+                <TextFix style={styles.pswText}>{this.props.languageMode==='chinese'?'忘记密码？':'Forget the password?'}</TextFix>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={()=>{this.props.navigation.navigate('RegisterPage');this.props.resetShowConfirmationForm()}}>
+                <TextFix style={styles.resText}>{this.props.languageMode==='chinese'?'注册账户':'Sign up'}</TextFix>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.bigBtnWrapper}>
@@ -136,6 +164,12 @@ const mapDispatchToProps=(dispatch)=>{
     },
     cLogPassWord(UpContactText){
       dispatch(actionCreators.cLogPassWord(UpContactText));
+    },
+    resetShowConfirmationForm(){
+      dispatch(actionCreators.resetShowConfirmationForm());
+    },
+    blurAllInput(){
+      dispatch(actionCreators.blurAllInput());
     },
   };
 }

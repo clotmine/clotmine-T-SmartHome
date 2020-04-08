@@ -30,7 +30,7 @@ class ACAssistantData extends Component {
 };
 
 const styles=StyleSheet.create({
-  wrapper:{flexDirection:'row',marginHorizontal:px2dp(60),justifyContent:'space-between'},
+  wrapper:{flexDirection:'row',marginHorizontal:px2dp(60),justifyContent:'space-between',marginTop:px2dp(20)},
   info:{fontSize:px2dp(38),color:'#fff'},
   title:{fontSize:px2dp(26),color:'rgba(255,255,255,.5)'}
 });

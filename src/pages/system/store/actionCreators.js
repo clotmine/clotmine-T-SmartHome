@@ -4,6 +4,10 @@ export const lanToChinese=()=>({
     type:constants.LAN_TO_CHINESE
 });
 
+export const resetShowConfirmationForm=()=>({
+    type:constants.RESET_SHOWCONFIRMATIONFORM
+});
+
 export const lanToEnglish=()=>({
     type:constants.LAN_TO_ENGLISH
 });
@@ -36,12 +40,16 @@ export const passWordInputBlur=()=>({
     type:constants.PASSWORD_NAME_BLUR
 });
 
-export const verCodeFocus=()=>({
+export const verCodeInputFocus=()=>({
     type:constants.VER_CODE_FOCUS
 });
 
-export const verCodeBlur=()=>({
+export const verCodeInputBlur=()=>({
     type:constants.VER_CODE_BLUR
+});
+
+export const blurAllInput=()=>({
+    type:constants.BLUR_ALL_INPUT
 });
 
 export const cLogUserName=(UpContactText)=>({

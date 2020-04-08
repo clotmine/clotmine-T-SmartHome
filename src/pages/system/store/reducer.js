@@ -25,6 +25,11 @@ export default (state=defaultState,action)=>{
         newState.languageMode='chinese';
         return newState;
     };
+    if(action.type===constants.RESET_SHOWCONFIRMATIONFORM){
+        const newState=JSON.parse(JSON.stringify(state));
+        newState.showConfirmationForm=false;
+        return newState;
+    };
     if(action.type===constants.LAN_TO_ENGLISH){
         const newState=JSON.parse(JSON.stringify(state));
         newState.languageMode='english';
@@ -73,6 +78,14 @@ export default (state=defaultState,action)=>{
     if(action.type===constants.VER_CODE_BLUR){
         const newState=JSON.parse(JSON.stringify(state));
         newState.verCodeFocus=false;
+        return newState;
+    };
+    if(action.type===constants.BLUR_ALL_INPUT){
+        const newState=JSON.parse(JSON.stringify(state));
+        newState.userNameFocus=false;
+        newState.userEmailFocus=false;
+        newState.verCodeFocus=false;
+        newState.userPassWordFocus=false;
         return newState;
     };
     if(action.type===constants.LOG_USER_NAME){

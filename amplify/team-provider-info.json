@@ -1,14 +1,14 @@
 {
-    "tshomeenv": {
+    "thomeenv": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-tsmarthome-tshomeenv-101304-authRole",
-            "UnauthRoleArn": "arn:aws:iam::100064470934:role/amplify-tsmarthome-tshomeenv-101304-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::100064470934:role/amplify-tsmarthome-tshomeenv-101304-authRole",
+            "AuthRoleName": "amplify-tsmarthome-thomeenv-111154-authRole",
+            "UnauthRoleArn": "arn:aws:iam::100064470934:role/amplify-tsmarthome-thomeenv-111154-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::100064470934:role/amplify-tsmarthome-thomeenv-111154-authRole",
             "Region": "us-east-1",
-            "DeploymentBucketName": "amplify-tsmarthome-tshomeenv-101304-deployment",
-            "UnauthRoleName": "amplify-tsmarthome-tshomeenv-101304-unauthRole",
-            "StackName": "amplify-tsmarthome-tshomeenv-101304",
-            "StackId": "arn:aws:cloudformation:us-east-1:100064470934:stack/amplify-tsmarthome-tshomeenv-101304/acd9e610-7099-11ea-8e4a-0ad9172a6ca8",
+            "DeploymentBucketName": "amplify-tsmarthome-thomeenv-111154-deployment",
+            "UnauthRoleName": "amplify-tsmarthome-thomeenv-111154-unauthRole",
+            "StackName": "amplify-tsmarthome-thomeenv-111154",
+            "StackId": "arn:aws:cloudformation:us-east-1:100064470934:stack/amplify-tsmarthome-thomeenv-111154/8d5cdd60-787d-11ea-964f-12305fa4f4bd",
             "AmplifyAppId": "d3ht48epn787v8"
         },
         "categories": {
